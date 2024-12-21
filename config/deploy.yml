@@ -1,0 +1,30 @@
+# Name of your application. Used to uniquely configure containers.
+service: python-job
+
+# Name of the container image.
+image: my-user/my-app
+
+# the default role is web but we want to run a job
+primary_role: job
+
+servers:
+  job:
+    hosts:
+      - 192.168.0.1
+    # specifically need to set proxy to false here or else
+    # kamal proxy will try to set up health checks
+    proxy: false
+
+# Credentials for your image host.
+registry:
+  # Specify the registry server, if you're not using Docker Hub
+  # server: registry.digitalocean.com / ghcr.io / ...
+  username: my-user
+
+  # Always use an access token rather than real password (pulled from .kamal/secrets).
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Configure builder setup.
+builder:
+  arch: amd64
